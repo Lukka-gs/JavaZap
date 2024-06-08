@@ -1,25 +1,20 @@
 package redes;
 
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Scanner;
+import java.io.PrintStream;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.Scanner;
-import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.Document;
-import javax.swing.text.BadLocationException;
-
 
 public class Servidor {
 
-    private static JTextPane messagePane;
+    private static JTextArea messageArea;
     private static JTextField inputField;
     private static JTextField ipField;
     private static JTextField portField;
@@ -48,11 +43,13 @@ public class Servidor {
         topPanel.add(portLabel);
         topPanel.add(portField);
 
-        messagePane = new JTextPane();
-        messagePane.setEditable(false);
-        messagePane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        messageArea = new JTextArea();
+        messageArea.setEditable(false);
+        messageArea.setLineWrap(true);
+        messageArea.setWrapStyleWord(true);
+        messageArea.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        JScrollPane scrollPane = new JScrollPane(messagePane);
+        JScrollPane scrollPane = new JScrollPane(messageArea);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
 
@@ -65,7 +62,7 @@ public class Servidor {
                 String message = inputField.getText();
                 if (!message.isEmpty()) {
                     out.println(message);
-                    appendMessage("Servidor: " + message, Color.GREEN);
+                    messageArea.append("Servidor: " + message + "\n");
                     inputField.setText("");
                 }
             }
@@ -96,11 +93,11 @@ public class Servidor {
 
         ServerSocket server = new ServerSocket(10000);
         portField.setText("10000");
-        messagePane.setText("Porta 10000 aberta, aguardando uma conexão\n");
+        messageArea.append("Porta 10000 aberta, aguardando uma conexão\n");
 
         Socket client = server.accept();
         String clientIp = client.getInetAddress().getHostAddress();
-        appendMessage("Conexão do cliente " + clientIp, Color.BLACK);
+        messageArea.append("Conexão do cliente " + clientIp + "\n");
         ipField.setText(clientIp);
 
         Scanner in = new Scanner(client.getInputStream());
@@ -119,7 +116,7 @@ public class Servidor {
         Thread receiveThread = new Thread(() -> {
             while (in.hasNextLine()) {
                 String message = in.nextLine();
-                appendMessage("Cliente: " + message, Color.BLUE);
+                messageArea.append("Cliente: " + message + "\n");
             }
         });
         receiveThread.start();
@@ -136,16 +133,5 @@ public class Servidor {
         server.close();
         client.close();
         in.close();
-    }
-
-    private static void appendMessage(String message, Color color) {
-        SimpleAttributeSet set = new SimpleAttributeSet();
-        StyleConstants.setForeground(set, color);
-        Document doc = messagePane.getStyledDocument();
-        try {
-            doc.insertString(doc.getLength(), message + "\n", set);
-        } catch (BadLocationException e) {
-            e.printStackTrace();
-        }
     }
 }

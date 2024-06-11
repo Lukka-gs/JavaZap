@@ -55,6 +55,7 @@ public class Servidor {
 
         inputField = new JTextField();
         JButton sendButton = new JButton("Enviar");
+        
 
         ActionListener sendAction = new ActionListener() {
             @Override

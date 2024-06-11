@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JavaZap.iml" filepath="$PROJECT_DIR$/JavaZap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/JavaZap.iml" filepath="$PROJECT_DIR$/.idea/JavaZap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaZapCliente/JavaZapCliente.iml" filepath="$PROJECT_DIR$/JavaZapCliente/JavaZapCliente.iml" />
+      <module fileurl="file://$PROJECT_DIR$/JavaZapServidor/JavaZapServidor.iml" filepath="$PROJECT_DIR$/JavaZapServidor/JavaZapServidor.iml" />
     </modules>
   </component>
 </project>

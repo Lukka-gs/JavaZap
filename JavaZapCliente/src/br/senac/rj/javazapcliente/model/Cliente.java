@@ -7,8 +7,18 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Cliente {
-	public static void main(String[] args) throws UnknownHostException, IOException {
-		Socket client = new Socket("127.0.0.1", 10000);
+	private String ip;
+	private int porta;
+	private String nomeUsuario;
+	
+	public Cliente(String ip, int porta, String nomeUsuario) {
+		this.ip = ip;
+		this.porta = porta;
+		this.nomeUsuario = nomeUsuario;
+	}
+	
+	public void iniciarChat() throws UnknownHostException, IOException { //Tirar esse throws!!!!!!!
+		Socket client = new Socket(this.ip, this.porta);
 		System.out.println("Cliente conectado ao servidor!");
 		
 		Scanner send = new Scanner(System.in);

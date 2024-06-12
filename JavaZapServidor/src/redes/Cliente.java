@@ -39,7 +39,7 @@ public class Cliente {
             e.printStackTrace();
         }
 
-// Fechar recursos
+//Fechar recursos
         sendThread.interrupt();
         receiveThread.interrupt();
         client.close();

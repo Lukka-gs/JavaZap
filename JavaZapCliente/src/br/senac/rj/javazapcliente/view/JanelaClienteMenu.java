@@ -62,10 +62,7 @@ public class JanelaClienteMenu {
 							JOptionPane.showMessageDialog(janelaMenu,"Todos os campos devem estar preenchidos");
 							return;
 						} else {
-							Cliente cliente = new Cliente(ip, porta, nomeUsuario);
-							JFrame janelaClienteChat = JanelaClienteChat.criarJanelaClienteChat(cliente);
-					        janelaClienteChat.setVisible(true);
-							cliente.iniciarChat();
+							JanelaClienteChat.criarJanelaClienteChat(ip, porta, nomeUsuario);
 						}
 				} catch (Exception erro) {
 					JOptionPane.showMessageDialog(janelaMenu, "Erro ao iniciar o chat: " + erro);

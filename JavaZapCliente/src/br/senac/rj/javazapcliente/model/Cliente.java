@@ -6,6 +6,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import javax.swing.JTextArea;
+
 public class Cliente {
 	private String ip;
 	private int porta;
@@ -17,7 +19,7 @@ public class Cliente {
 		this.nomeUsuario = nomeUsuario;
 	}
 	
-	public void iniciarChat() throws UnknownHostException, IOException { //Tirar esse throws!!!!!!!
+	public void iniciarChat(JTextArea conversa) throws UnknownHostException, IOException { //Tirar esse throws!!!!!!!
 		Socket client = new Socket(this.ip, this.porta);
 		System.out.println("Cliente conectado ao servidor!");
 		
@@ -33,7 +35,7 @@ public class Cliente {
 		
 		Thread receiveThread = new Thread(() -> {
 			while (receive.hasNextLine()) {
-				System.out.println(receive.nextLine());
+				conversa.append("Servidor diz: " + receive.nextLine() + "\n");
 			}
 		});
 		
@@ -51,4 +53,8 @@ public class Cliente {
     		receive.close();
     	}
 	}
+	
+	public void enviarMensagem(String mensagem) {
+		return;
+	};
 }

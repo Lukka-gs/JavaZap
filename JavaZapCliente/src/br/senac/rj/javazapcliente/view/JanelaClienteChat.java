@@ -52,7 +52,7 @@ public class JanelaClienteChat {
 				try { 
 						String conteudoMensagem = mensagem.getText();
 						if (!conteudoMensagem.isEmpty()) {
-							conversa.append(nomeUsuario + ": " + conteudoMensagem);
+							conversa.append(nomeUsuario + ": " + conteudoMensagem + "\n");
 							mensagem.setText("");
 							cliente.enviarMensagem(conteudoMensagem);
 						}

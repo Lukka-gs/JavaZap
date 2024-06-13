@@ -6,16 +6,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class JanelaServidor extends JFrame {
     public static JFrame criarJanelaServidor(Servidor servidor) {
 
         JFrame janelaServidor = new JFrame("Server Side");
         janelaServidor.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        janelaServidor.setSize(800, 800);
+        janelaServidor.setSize(800, 700);
 
         Container caixa = janelaServidor.getContentPane();
         caixa.setLayout(null);
@@ -23,7 +27,6 @@ public class JanelaServidor extends JFrame {
         String ipAddress = servidor.verificaIp();
         int port = servidor.getPORT();
 
-        // Criando o título com IP e Porta
         JLabel titulo = new JLabel("IP: " + ipAddress + "    Porta: " + port);
         titulo.setBounds(45, 20, 700, 20);
         janelaServidor.add(titulo);
@@ -43,25 +46,39 @@ public class JanelaServidor extends JFrame {
         mensagem.setEditable(false);
         mensagem.setBackground(Color.LIGHT_GRAY);
         JScrollPane scrollMensagem = new JScrollPane(mensagem);
-        scrollMensagem.setBounds(35, 575, 610, 150);
+        scrollMensagem.setBounds(35, 575, 610, 50);
         caixa.add(scrollMensagem);
 
         JButton botaoEnviarMensagem = new JButton("Enviar");
-        botaoEnviarMensagem.setBounds(655, 575, 100, 150);
+        botaoEnviarMensagem.setBounds(655, 575, 100, 50);
         janelaServidor.add(botaoEnviarMensagem);
         botaoEnviarMensagem.setEnabled(false);
+        
+        mensagem.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent apertarEnter) {
+            	if (apertarEnter.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (apertarEnter.isShiftDown()) {
+                        mensagem.append("\n");
+                    } else {
+                    	apertarEnter.consume();
+                        botaoEnviarMensagem.doClick();
+                    }
+                }
+            }
+        });
+        
         botaoEnviarMensagem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evento) {
                 try {
                     String conteudoMensagem = mensagem.getText();
                     if (!conteudoMensagem.isEmpty()) {
-                        conversa.append("Servidor: " + conteudoMensagem + "\n");
+                    	LocalDateTime agora = LocalDateTime.now();
+						DateTimeFormatter formatadorTimestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+						String timestampFormatado = agora.format(formatadorTimestamp);
+						conversa.append(timestampFormatado + " - Servidor:\n" + conteudoMensagem + "\n\n");
                         mensagem.setText("");
                         servidor.enviarMensagem(conteudoMensagem);
                     }
-
-
-
                 } catch (Exception erro) {
                     JOptionPane.showMessageDialog(janelaServidor, "Erro ao iniciar o chat: " + erro);
                 }

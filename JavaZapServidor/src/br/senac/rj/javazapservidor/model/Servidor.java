@@ -7,6 +7,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 import java.io.PrintStream;
 
@@ -57,7 +59,10 @@ public class Servidor {
 	}
 	public void enviarMensagem(String mensagem) {
 		if (this.out != null) {
-			this.out.println("Servidor: " + mensagem);
+			LocalDateTime agora = LocalDateTime.now();
+			DateTimeFormatter formatadorTimestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			String timestampFormatado = agora.format(formatadorTimestamp);
+            this.out.println(timestampFormatado + " - Servidor:\n" + mensagem + "\n");
 		}
 	}
 

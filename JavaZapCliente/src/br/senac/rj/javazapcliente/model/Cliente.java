@@ -3,6 +3,8 @@ package br.senac.rj.javazapcliente.model;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 import javax.swing.*;
@@ -12,7 +14,7 @@ public class Cliente {
     private final int porta;
 
     private final String nomeUsuario;
-    private PrintStream out; // Armazenar o PrintStream como campo de instância
+    private PrintStream out; 
 
 
     public Cliente(String ip, int porta, String nomeUsuario) {
@@ -26,8 +28,7 @@ public class Cliente {
         System.out.println("Cliente conectado ao servidor!");
 
         Scanner receive = new Scanner(client.getInputStream());
-        this.out = new PrintStream(client.getOutputStream()); // Inicializar o PrintStream
-        //out.println(nomeUsuario);
+        this.out = new PrintStream(client.getOutputStream());
 
         Thread receiveThread = new Thread(() -> {
             while (receive.hasNextLine()) {
@@ -49,7 +50,10 @@ public class Cliente {
 
     public void enviarMensagem(String mensagem) {
         if (this.out != null) {
-            this.out.println(nomeUsuario + ": " + mensagem);
+        	LocalDateTime agora = LocalDateTime.now();
+			DateTimeFormatter formatadorTimestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			String timestampFormatado = agora.format(formatadorTimestamp);
+            this.out.println(timestampFormatado + " - " + nomeUsuario + ":\n" + mensagem + "\n");
         }
     }
 }

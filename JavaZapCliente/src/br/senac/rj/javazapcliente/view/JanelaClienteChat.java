@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.*;
 
@@ -19,7 +23,7 @@ public class JanelaClienteChat extends JFrame{
     	
         JFrame janelaClienteChat = new JFrame("Client Side");
         janelaClienteChat.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        janelaClienteChat.setSize(800, 800);
+        janelaClienteChat.setSize(800, 700);
         
         Container caixa = janelaClienteChat.getContentPane();
         caixa.setLayout(null);
@@ -36,24 +40,38 @@ public class JanelaClienteChat extends JFrame{
         mensagem.setLineWrap(true);
         mensagem.setWrapStyleWord(true);
 		JScrollPane scrollMensagem = new JScrollPane(mensagem);
-        scrollMensagem.setBounds(35, 575, 610, 150);
+        scrollMensagem.setBounds(35, 575, 610, 50);
         caixa.add(scrollMensagem);
         
 		JButton botaoEnviarMensagem = new JButton("Enviar");
-		botaoEnviarMensagem.setBounds(655, 575, 100, 150);
+		botaoEnviarMensagem.setBounds(655, 575, 100, 50);
 		janelaClienteChat.add(botaoEnviarMensagem);
+		
+		mensagem.addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent apertarEnter) {
+            	if (apertarEnter.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (apertarEnter.isShiftDown()) {
+                        mensagem.append("\n");
+                    } else {
+                    	apertarEnter.consume();
+                        botaoEnviarMensagem.doClick();
+                    }
+                }
+            }
+        });
+		
 		botaoEnviarMensagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
 				try { 
 						String conteudoMensagem = mensagem.getText();
 						if (!conteudoMensagem.isEmpty()) {
-							conversa.append(nomeUsuario + ": " + conteudoMensagem + "\n");
+							LocalDateTime agora = LocalDateTime.now();
+							DateTimeFormatter formatadorTimestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+							String timestampFormatado = agora.format(formatadorTimestamp);
+							conversa.append(timestampFormatado + " - " + nomeUsuario + ":\n" + conteudoMensagem + "\n\n");
 							mensagem.setText("");
 							cliente.enviarMensagem(conteudoMensagem);
-						}
-						
-						
-						
+						}		
 				} catch (Exception erro) {
 					JOptionPane.showMessageDialog(janelaClienteChat, "Erro ao iniciar o chat: " + erro);
 				}
@@ -63,22 +81,17 @@ public class JanelaClienteChat extends JFrame{
 		new Thread(() -> {
 			try {
 				cliente.iniciarChat(conversa);
-			} catch (UnknownHostException e) {
-				e.printStackTrace();
-				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaClienteChat, "Erro ao conectar ao servidor: " + e.getMessage()));
-			} catch (IOException e) {
-				e.printStackTrace();
-				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaClienteChat, "Erro de I/O: " + e.getMessage()));
+			} catch (UnknownHostException erro) {
+				erro.printStackTrace();
+				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaClienteChat, "Erro ao conectar ao servidor: " + erro.getMessage()));
+			} catch (IOException erro) {
+				erro.printStackTrace();
+				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaClienteChat, "Erro de I/O: " + erro.getMessage()));
 			}
 		}).start();
 
 		janelaClienteChat.setVisible(true);
 		return janelaClienteChat;
-    }
-    
-    public static void main(String[] args) {       
-        JFrame testFrame = criarJanelaClienteChat("127.0.0.1", 10000, "TestUser");
-        
     }
 }
 

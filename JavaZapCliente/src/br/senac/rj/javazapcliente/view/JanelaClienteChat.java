@@ -4,21 +4,17 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import br.senac.rj.javazapcliente.model.Cliente;
 
-public class JanelaClienteChat {
+public class JanelaClienteChat extends JFrame{
 
     public static JFrame criarJanelaClienteChat(String ip, int porta, String nomeUsuario) {
-    	
+
 		Cliente cliente = new Cliente(ip, porta, nomeUsuario);
     	
         JFrame janelaClienteChat = new JFrame("Client Side");
@@ -46,7 +42,6 @@ public class JanelaClienteChat {
 		JButton botaoEnviarMensagem = new JButton("Enviar");
 		botaoEnviarMensagem.setBounds(655, 575, 100, 150);
 		janelaClienteChat.add(botaoEnviarMensagem);
-		
 		botaoEnviarMensagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evento) {
 				try { 
@@ -64,33 +59,21 @@ public class JanelaClienteChat {
 				}
 			}
 		});
-		
-//		ActionListener sendAction = new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//            	try {
-//            		string message = inputField.getText();
-//	                if (!message.isEmpty()) {
-//	                    out.println(message);
-//	                    messageArea.append("Servidor: " + message + "\n");
-//	                    inputField.setText("");
-//	                }
-//            	}
-//            	catch (Exception erro) {
-//					JOptionPane.showMessageDialog(janelaClienteChat, "Erro ao iniciar o chat: " + erro);
-//				}
-//            }
-//        };
-		
-		try {
-			janelaClienteChat.setVisible(true);
-			cliente.iniciarChat(conversa);
-			
-		}catch(Exception erro) {
-			JOptionPane.showMessageDialog(janelaClienteChat, "Erro ao iniciar o chat: " + erro);
-			janelaClienteChat.dispose();
-		}
-		
-        return janelaClienteChat;
+
+		new Thread(() -> {
+			try {
+				cliente.iniciarChat(conversa);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaClienteChat, "Erro ao conectar ao servidor: " + e.getMessage()));
+			} catch (IOException e) {
+				e.printStackTrace();
+				SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaClienteChat, "Erro de I/O: " + e.getMessage()));
+			}
+		}).start();
+
+		janelaClienteChat.setVisible(true);
+		return janelaClienteChat;
     }
     
     public static void main(String[] args) {       

@@ -3,16 +3,17 @@ package br.senac.rj.javazapcliente.model;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 public class Cliente {
-    private String ip;
-    private int porta;
-    private String nomeUsuario;
+    private final String ip;
+    private final int porta;
+
+    private final String nomeUsuario;
     private PrintStream out; // Armazenar o PrintStream como campo de instância
+
 
     public Cliente(String ip, int porta, String nomeUsuario) {
         this.ip = ip;
@@ -20,16 +21,17 @@ public class Cliente {
         this.nomeUsuario = nomeUsuario;
     }
 
-    public void iniciarChat(JTextArea conversa) throws UnknownHostException, IOException {
+    public void iniciarChat(JTextArea conversa) throws IOException {
         Socket client = new Socket(this.ip, this.porta);
         System.out.println("Cliente conectado ao servidor!");
 
         Scanner receive = new Scanner(client.getInputStream());
         this.out = new PrintStream(client.getOutputStream()); // Inicializar o PrintStream
+        //out.println(nomeUsuario);
 
         Thread receiveThread = new Thread(() -> {
             while (receive.hasNextLine()) {
-                conversa.append("Servidor diz: " + receive.nextLine() + "\n");
+                conversa.append(receive.nextLine() + "\n");
             }
         });
 
@@ -48,6 +50,8 @@ public class Cliente {
     public void enviarMensagem(String mensagem) {
         if (this.out != null) {
             this.out.println(nomeUsuario + ": " + mensagem);
+        } else  {
+            out.close();
         }
     }
 }

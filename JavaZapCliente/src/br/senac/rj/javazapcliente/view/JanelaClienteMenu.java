@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import br.senac.rj.javazapcliente.model.Cliente;
 
 public class JanelaClienteMenu {
 
@@ -60,8 +59,8 @@ public class JanelaClienteMenu {
 						
 						if(ip.isEmpty() || porta <= 0 || nomeUsuario.isEmpty()) {
 							JOptionPane.showMessageDialog(janelaMenu,"Todos os campos devem estar preenchidos");
-							return;
 						} else {
+							janelaMenu.setVisible(false);
 							JanelaClienteChat.criarJanelaClienteChat(ip, porta, nomeUsuario);
 						}
 				} catch (Exception erro) {

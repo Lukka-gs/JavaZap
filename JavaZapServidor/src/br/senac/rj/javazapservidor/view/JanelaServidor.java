@@ -26,6 +26,7 @@ public class JanelaServidor extends JFrame {
         JScrollPane scrollConversa = new JScrollPane(conversa);
         scrollConversa.setBounds(45, 50, 700, 500);
         janelaServidor.add(scrollConversa);
+        conversa.append("Aguardando conexão com o cliente\n");
 
         JTextArea mensagem = new JTextArea();
         mensagem.setLineWrap(true);
@@ -39,6 +40,7 @@ public class JanelaServidor extends JFrame {
         JButton botaoEnviarMensagem = new JButton("Enviar");
         botaoEnviarMensagem.setBounds(655, 575, 100, 150);
         janelaServidor.add(botaoEnviarMensagem);
+        botaoEnviarMensagem.setEnabled(false);
         botaoEnviarMensagem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evento) {
                 try {
@@ -59,7 +61,7 @@ public class JanelaServidor extends JFrame {
 
         new Thread(() -> {
             try {
-                servidor.conectarCliente(conversa, mensagem);
+                servidor.conectarCliente(conversa, mensagem, botaoEnviarMensagem);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaServidor, "Erro ao conectar ao servidor: " + e.getMessage()));

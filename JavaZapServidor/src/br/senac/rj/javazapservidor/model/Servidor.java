@@ -20,10 +20,12 @@ public class Servidor {
 			System.err.println("Erro ao iniciar o servidor: " + e.getMessage());
 		}
 	}
-	public void conectarCliente(JTextArea conversa, JTextArea mensagem) throws IOException {
+	public void conectarCliente(JTextArea conversa, JTextArea mensagem, JButton botaoEnviarMensagem) throws IOException {
 		Socket client = server.accept();
 		mensagem.setEditable(true);
 		mensagem.setBackground(Color.WHITE);
+		botaoEnviarMensagem.setEnabled(true);
+		conversa.setText("");
 
 		Scanner in = new Scanner(client.getInputStream());
 		this.out = new PrintStream(client.getOutputStream());

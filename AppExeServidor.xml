@@ -6,7 +6,7 @@
   <outfile>C:\Senac\JavaZap\out\artifacts\JavaZapServidor_jar\JavaZapServidor.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
-  <chdir></chdir>
+  <chdir>.</chdir>
   <priority>normal</priority>
   <downloadUrl></downloadUrl>
   <supportUrl></supportUrl>
@@ -15,7 +15,7 @@
   <manifest></manifest>
   <icon>C:\Senac\JavaZap\AppExe\Javei\Javei.ico</icon>
   <jre>
-    <path>C:\Senac\JavaZap\AppExe\JRE</path>
+    <path>JRE</path>
     <requiresJdk>false</requiresJdk>
     <requires64Bit>false</requires64Bit>
     <minVersion></minVersion>

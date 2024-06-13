@@ -30,6 +30,8 @@ public class JanelaServidor extends JFrame {
         JTextArea mensagem = new JTextArea();
         mensagem.setLineWrap(true);
         mensagem.setWrapStyleWord(true);
+        mensagem.setEditable(false);
+        mensagem.setBackground(Color.LIGHT_GRAY);
         JScrollPane scrollMensagem = new JScrollPane(mensagem);
         scrollMensagem.setBounds(35, 575, 610, 150);
         caixa.add(scrollMensagem);
@@ -57,7 +59,7 @@ public class JanelaServidor extends JFrame {
 
         new Thread(() -> {
             try {
-                servidor.conectarCliente(conversa);
+                servidor.conectarCliente(conversa, mensagem);
             } catch (UnknownHostException e) {
                 e.printStackTrace();
                 SwingUtilities.invokeLater(() -> JOptionPane.showMessageDialog(janelaServidor, "Erro ao conectar ao servidor: " + e.getMessage()));

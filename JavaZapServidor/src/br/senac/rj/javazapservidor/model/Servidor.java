@@ -1,6 +1,7 @@
 package br.senac.rj.javazapservidor.model;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -19,17 +20,17 @@ public class Servidor {
 			System.err.println("Erro ao iniciar o servidor: " + e.getMessage());
 		}
 	}
-	public void conectarCliente(JTextArea conversa) throws IOException {
+	public void conectarCliente(JTextArea conversa, JTextArea mensagem) throws IOException {
 		Socket client = server.accept();
+		mensagem.setEditable(true);
+		mensagem.setBackground(Color.WHITE);
 
 		Scanner in = new Scanner(client.getInputStream());
 		this.out = new PrintStream(client.getOutputStream());
 
 		Thread receiveThread = new Thread(() -> {
 			while (in.hasNextLine()) {
-				SwingUtilities.invokeLater(() -> {
-					conversa.append(in.nextLine() + "\n");
-				});
+				conversa.append(in.nextLine() + "\n");
 			}
 		});
 

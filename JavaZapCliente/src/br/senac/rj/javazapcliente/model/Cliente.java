@@ -50,8 +50,6 @@ public class Cliente {
     public void enviarMensagem(String mensagem) {
         if (this.out != null) {
             this.out.println(nomeUsuario + ": " + mensagem);
-        } else  {
-            out.close();
         }
     }
 }

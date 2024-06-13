@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class JanelaServidor extends JFrame {
@@ -18,6 +19,14 @@ public class JanelaServidor extends JFrame {
 
         Container caixa = janelaServidor.getContentPane();
         caixa.setLayout(null);
+
+        String ipAddress = servidor.verificaIp();
+        int port = servidor.getPORT();
+
+        // Criando o título com IP e Porta
+        JLabel titulo = new JLabel("IP: " + ipAddress + "    Porta: " + port);
+        titulo.setBounds(45, 20, 700, 20);
+        janelaServidor.add(titulo);
 
         JTextArea conversa = new JTextArea();
         conversa.setEditable(false);

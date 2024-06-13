@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/JavaZap.iml" filepath="$PROJECT_DIR$/.idea/JavaZap.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaZapCliente/JavaZapCliente.iml" filepath="$PROJECT_DIR$/JavaZapCliente/JavaZapCliente.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaZapServidor/JavaZapServidor.iml" filepath="$PROJECT_DIR$/JavaZapServidor/JavaZapServidor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Test/Test.iml" filepath="$PROJECT_DIR$/Test/Test.iml" />
     </modules>
   </component>
 </project>

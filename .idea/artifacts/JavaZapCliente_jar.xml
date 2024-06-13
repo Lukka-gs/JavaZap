@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="JavaZapCliente:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/JavaZapCliente_jar</output-path>
+    <root id="archive" name="JavaZapCliente.jar">
+      <element id="module-output" name="JavaZapCliente" />
+    </root>
+  </artifact>
+</component>

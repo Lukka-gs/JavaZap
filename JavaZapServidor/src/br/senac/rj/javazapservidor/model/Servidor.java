@@ -16,8 +16,6 @@ import java.io.PrintStream;
 public class Servidor {
 	private ServerSocket server;
 	private PrintStream out;
-
-
 	private final int PORT = 10000;
 	public Servidor() {
 		try {
@@ -30,6 +28,7 @@ public class Servidor {
 	public int getPORT() {
 		return PORT;
 	}
+
 	public void conectarCliente(JTextArea conversa, JTextArea mensagem, JButton botaoEnviarMensagem) throws IOException {
 		Socket client = server.accept();
 		mensagem.setEditable(true);

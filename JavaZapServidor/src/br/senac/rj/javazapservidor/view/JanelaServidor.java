@@ -75,9 +75,9 @@ public class JanelaServidor extends JFrame {
                     	LocalDateTime agora = LocalDateTime.now();
 						DateTimeFormatter formatadorTimestamp = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 						String timestampFormatado = agora.format(formatadorTimestamp);
+                        servidor.enviarMensagem(conteudoMensagem);
 						conversa.append(timestampFormatado + " - Servidor:\n" + conteudoMensagem + "\n\n");
                         mensagem.setText("");
-                        servidor.enviarMensagem(conteudoMensagem);
                     }
                 } catch (Exception erro) {
                     JOptionPane.showMessageDialog(janelaServidor, "Erro ao iniciar o chat: " + erro);

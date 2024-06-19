@@ -20,10 +20,10 @@ public class ClientController {
     private String ip;
     private int PORT;
 
-    public ClientController(String ip, int PORT, User userClient) {
+    public ClientController(String ip, int PORT, String userName) {
         this.ip = ip;
         this.PORT = PORT;
-        this.userClient = userClient;
+        this.userClient = new User(userName);
     }
     public void requestConnection(ClientChatView clientView) throws IOException {
         client = new Socket(this.ip, this.PORT);

@@ -63,8 +63,7 @@ public class HomeView extends JFrame {
                 JOptionPane.showMessageDialog(this, "Todos os campos devem estar preenchidos");
             } else {
                 setVisible(false);
-                User userClient = new User(userName);
-                ClientController client = new ClientController(IP, PORT, userClient);
+                ClientController client = new ClientController(IP, PORT, userName);
                 ClientChatView newWindow = new ClientChatView(client);
                 client.requestConnection(newWindow);
             }
